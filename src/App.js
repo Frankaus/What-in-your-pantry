@@ -1,14 +1,30 @@
-import { BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomeSearch from "./homeSearch";
+import SearchResults from "./searchResRecipes";
+import Recipe from "./recipe";
 
 function App() {
-
     return (
-        <Router>
-            <div>
-                <HomeSearch />
-            </div>
-        </Router>
+        <div>
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <HomeSearch />
+                        <SearchResults />
+                    </Route>
+                    <Route
+                        path="/recipe/:id"
+                        render={(props) => (
+                            <Recipe
+                                match={props.match}
+                                history={props.history}
+                                key={props.match.url}
+                            />
+                        )}
+                    />
+                </Switch>
+            </Router>
+        </div>
     );
 }
 
