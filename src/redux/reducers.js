@@ -3,28 +3,19 @@ const DEFAULT_STATE = {
 };
 
 export function reducer(state = DEFAULT_STATE, action) {
-
     if (action.type === "UPLOAD_RECIPES") {
         state = {
             ...state,
-            recipes: action.data
-        }
+            recipes: action.data,
+        };
     }
 
     if (action.type === "UPLOAD_RECIPES_INFO") {
-        state= {
+        state = {
             ...state,
-            recipesInfo: action.data
-            // recipes: state.recipes.map((elem, index) => {
-            //     if (elem.id === action.id[index])
-            //         return {
-            //             recipes: [...elem, action.data]
-            //         }
-            //     }
-            // )
-        }
+            recipesInfo: action.data,
+        };
     }
-    
-    
+
     return state;
 }

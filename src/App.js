@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomeSearch from "./homeSearch";
-import SearchResults from "./searchResRecipes";
+import SearchResults from "./searchResults";
 import Recipe from "./recipe";
 import Test from "./test";
 
@@ -10,9 +10,12 @@ function App() {
             <Router>
                 <Switch>
                     <Route exact path="/">
-                        <HomeSearch />
-                        <SearchResults />
-                        {/* <Test /> */}
+                        <div className=" border-black border-2">
+                            <HomeSearch />
+                        </div>
+                        <div>
+                            <SearchResults />
+                        </div>
                     </Route>
                     <Route
                         path="/recipe/:id"

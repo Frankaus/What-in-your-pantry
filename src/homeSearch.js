@@ -1,76 +1,122 @@
-import {useState} from "react";
-import {useDispatch} from 'react-redux';
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { uploadRecipes, uploadRecipesInfo } from "./redux/actions";
-
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
     const [ingredient, setIngredient] = useState("");
-    const [ingredientsList] = useState([]);
-    const { REACT_APP_API_TOKEN} = process.env;
+    const [ingredientsList, setIngredientsList] = useState([]);
+    const [recipes, setRecipes] = useState();
+    const [dataArr, setDataArr] = useState([]);
 
-    console.log('arr: ', ingredientsList);
+    const { REACT_APP_API_TOKEN } = process.env;
+
+    let removeItem = (event) => {
+        let clicked = event.target.getAttribute("name");
+        setIngredientsList(
+            ingredientsList.filter((elem) => {
+                if (elem !== clicked) {
+                    return elem;
+                }
+            })
+        );
+    };
 
     let submitList = () => {
-        let queryString = ingredientsList.join(',');
-        console.log('query: ', queryString);
+        let queryString = ingredientsList.join(",");
+        console.log("query: ", queryString);
         fetch(
             `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&number=20&ranking=2&limitLicense=true&ignorePantry=true&apiKey=${REACT_APP_API_TOKEN}`
         )
-        .then(res => {return res.json();})
-        .then(data => {
-            console.log('data: ', data);
-            dispatch(uploadRecipes(data));
-            let ids = data.map(elem => elem.id).join(",");
-            console.log('ids: ', ids);
-            fetch(
-                `https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${REACT_APP_API_TOKEN}`
-            ).then((res) => {
+            .then((res) => {
                 return res.json();
-            }).then(data => {
-                console.log('data2: ', data);
-                dispatch(uploadRecipesInfo(data));
+            })
+            .then((data) => {
+                console.log("data: ", data);
+                setRecipes(data);
+                // dispatch(uploadRecipes(data));
+                let ids = data.map((elem) => elem.id).join(",");
+                console.log("ids: ", ids);
+                fetch(
+                    `https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${REACT_APP_API_TOKEN}`
+                )
+                    .then((res) => {
+                        return res.json();
+                    })
+                    .then((data) => {
+                        console.log("data2: ", data);
+                        setDataArr(data);
+                    })
+                    .catch((err) => {
+                        console.log("error second Fetch: ", err);
+                    });
+            })
+            .catch((err) => {
+                console.log("error first Fetch: ", err);
             });
-        })
-        .catch(err => {
-            console.log('error: ', err);
-        });
-    
     };
 
+    useEffect(() => {
+        let arr = dataArr.map((elem, index) => {
+            return (elem[index] = {
+                ...recipes[index],
+                ...dataArr[index],
+            });
+        });
+        console.log("arr: ", arr);
+        dispatch(uploadRecipes(arr));
+    }, [dataArr]);
+
     return (
-        <div className="p-2 flex-col items-center">
-            <input
-                onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                        ingredientsList.push(ingredient);
-                        setIngredient("");
-                    }
-                }}
-                onChange={(e) => setIngredient(e.target.value)}
-                type="text"
-                placeholder="enter one ingredient"
-                value={ingredient}
-            />
-            <div>
+        <div className="p-2 w-screen h-auto">
+            <div className="h-full flex flex-col items-center">
+                <input
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            ingredientsList.push(ingredient);
+                            setIngredient("");
+                        }
+                    }}
+                    onChange={(e) => setIngredient(e.target.value)}
+                    type="text"
+                    placeholder="Enter one ingredient at the time..."
+                    value={ingredient}
+                    className="my-4 w-11/12 p-2 "
+                />
                 <button
                     onClick={() => {
                         ingredientsList.push(ingredient);
                         setIngredient("");
                     }}
-                    className="border-solid border-black border-2 rounded-lg p-1"
+                    className="border-solid border-red-400 border-2 rounded-lg p-1 bg-red-400 text-white text font-semibold"
                 >
                     Add the ingredient to the list
                 </button>
                 <button
-                    className="border-solid border-black border-2 rounded-lg p-1"
+                    className="border-solid border-red-400 border-2 rounded-lg p-1 bg-red-400 text-white text font-semibold my-4"
                     onClick={() => submitList()}
                 >
-                    Submit the List
+                    Submit the pantry list
                 </button>
+            </div>
+
+            <div className="flex flex-wrap">
+                {ingredientsList.length > 0 &&
+                    ingredientsList.map((elem) => {
+                        return (
+                            <div
+                                key={elem}
+                                name={elem}
+                                onClick={(e) => removeItem(e)}
+                                className="px-1 border-solid border-2 rounded-lg border-yellow-200 bg-yellow-200 m-2 text-gray-400 font-semibold"
+                            >
+                                {elem}
+                            </div>
+                        );
+                    })}
             </div>
         </div>
     );
-}
+};
 
 export default HomeSearch;
