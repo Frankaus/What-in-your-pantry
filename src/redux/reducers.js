@@ -10,6 +10,20 @@ export function reducer(state = DEFAULT_STATE, action) {
             recipes: action.data
         }
     }
+
+    if (action.type === "UPLOAD_RECIPES_INFO") {
+        state= {
+            ...state,
+            recipesInfo: action.data
+            // recipes: state.recipes.map((elem, index) => {
+            //     if (elem.id === action.id[index])
+            //         return {
+            //             recipes: [...elem, action.data]
+            //         }
+            //     }
+            // )
+        }
+    }
     
     
     return state;

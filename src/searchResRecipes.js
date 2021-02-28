@@ -1,41 +1,60 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState} from "react";
+import { useState } from "react";
 
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SearchResults = () => {
     const recipes = useSelector((state) => state.recipes);
+    const info = useSelector((state) => state.recipesInfo);
+    const [result] = useState([]);
 
-    useEffect(() => {
-        (async () => {
-            
-        })();
-    }, [recipes]);
+    console.log("recipes: ", recipes);
 
-    if (!recipes.length) {
-        return null;
+    if (info) {
+        for (let i = 0; i < recipes.length; i++) {
+            result.push([recipes[i], info[i]]);
+        }
+    }
+    console.log("result: ", result);
+
+    if (!result.length) {
+        return (
+            <div>
+                Loading...
+            </div>
+        )
     }
 
     return (
         <div>
-            {recipes &&
-                recipes.map((elem, index) => {
-                    return <div key={index}>
-                        <img src={elem.image} alt={elem.title}/>
-                        <div>
-                        <h2>{elem.title}</h2>
-                        <span>Match: {elem.match}</span>
-                        {elem.missedIngredientCount > 0 && (
-                            <p>You are missing only {elem.missedIngredientCount} ingredient(s): {elem.missedIngredients.join(', ')}
-                            </p>
-                        )}
-                        </div>
-                        <Link to={`/recipe/${elem.id}`} >
+            {result.length &&
+                result.map((elem, index) => {
+                    return (
+                        <div key={index}>
+                            <img src={elem[0].image} alt={elem[0].title} />
                             <div>
-                                Read the instructions
+                                <h2>{elem[0].title}</h2>
+                                {elem[0].missedIngredientCount > 0 && (
+                                    <p>
+                                        You are missing only{" "}
+                                        {elem[0].missedIngredientCount}{" "}
+                                        ingredient(s):{" "}
+                                        {elem[0].missedIngredients
+                                            .map((elem) => elem.name)
+                                            .join(", ")}
+                                    </p>
+                                )}
                             </div>
-                        </Link>
-                    </div>;
+                            <div>
+                                {!!elem[1].vegetarian && <div>Vegetarian</div>}
+                                {!!elem[1].vegan && <div>Vegan</div>}
+                                {!!elem[1].dairyFree && <div>DairyFree</div>}
+                            </div>
+                            <Link to={`/recipe/${elem[0].id}`}>
+                                <div>Read the instructions</div>
+                            </Link>
+                        </div>
+                    );
                 })}
         </div>
     );

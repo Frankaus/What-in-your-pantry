@@ -1,20 +1,41 @@
-import axios from "axios";
 import {useState} from "react";
 import {useDispatch} from 'react-redux';
-import {uploadRecipes} from './redux/actions';
+import { uploadRecipes, uploadRecipesInfo } from "./redux/actions";
 
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
     const [ingredient, setIngredient] = useState("");
-    const [ingredientsList, setIngredientsList] = useState([]);
+    const [ingredientsList] = useState([]);
+    const { REACT_APP_API_TOKEN} = process.env;
 
     console.log('arr: ', ingredientsList);
 
-    let submitList = async () => {
-        let {data} = await axios.post("/api/submitIngredientsList", ingredientsList);
-        console.log('res: ', data);
-        dispatch(uploadRecipes(data));
+    let submitList = () => {
+        let queryString = ingredientsList.join(',');
+        console.log('query: ', queryString);
+        fetch(
+            `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&number=20&ranking=2&limitLicense=true&ignorePantry=true&apiKey=${REACT_APP_API_TOKEN}`
+        )
+        .then(res => {return res.json();})
+        .then(data => {
+            console.log('data: ', data);
+            dispatch(uploadRecipes(data));
+            let ids = data.map(elem => elem.id).join(",");
+            console.log('ids: ', ids);
+            fetch(
+                `https://api.spoonacular.com/recipes/informationBulk?ids=${ids}&apiKey=${REACT_APP_API_TOKEN}`
+            ).then((res) => {
+                return res.json();
+            }).then(data => {
+                console.log('data2: ', data);
+                dispatch(uploadRecipesInfo(data));
+            });
+        })
+        .catch(err => {
+            console.log('error: ', err);
+        });
+    
     };
 
     return (

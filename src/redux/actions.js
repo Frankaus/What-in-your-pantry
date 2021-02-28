@@ -4,3 +4,11 @@ export const uploadRecipes = (recipes) => {
         data: recipes,
     }
 };
+
+export const uploadRecipesInfo = (recipes) => {
+    return {
+        type: "UPLOAD_RECIPES_INFO",
+        data: recipes,
+        id: recipes.map(elem => elem.id)
+    }
+}

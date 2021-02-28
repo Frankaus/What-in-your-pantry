@@ -1,5 +1,5 @@
 const https = require("https");
-const secrets = require("./secrets.json");
+// const secrets = require("./secrets.json");
 const { promisify } = require("util");
 
 exports.getRecipes = (queryString, reqBody, callback) => {

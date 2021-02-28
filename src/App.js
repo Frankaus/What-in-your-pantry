@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomeSearch from "./homeSearch";
 import SearchResults from "./searchResRecipes";
 import Recipe from "./recipe";
+import Test from "./test";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
                     <Route exact path="/">
                         <HomeSearch />
                         <SearchResults />
+                        {/* <Test /> */}
                     </Route>
                     <Route
                         path="/recipe/:id"

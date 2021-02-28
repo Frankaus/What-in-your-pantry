@@ -5,7 +5,7 @@ const compression = require("compression");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
 const { getRecipes, getIngredients, getRecipeInstructions, getRecipeInfoBulk } = require("./apiCalls");
-const secrets = require('./secrets.json');
+// const secrets = require('./secrets.json');
 
 const app = express();
 
