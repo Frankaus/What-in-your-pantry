@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomeSearch from "./homeSearch";
 import SearchResults from "./searchResults";
 import Recipe from "./recipe";
-import Test from "./test";
 
 function App() {
     return (
@@ -20,11 +19,13 @@ function App() {
                     <Route
                         path="/recipe/:id"
                         render={(props) => (
-                            <Recipe
-                                match={props.match}
-                                history={props.history}
-                                key={props.match.url}
-                            />
+                            <div>
+                                <Recipe
+                                    match={props.match}
+                                    history={props.history}
+                                    key={props.match.url}
+                                />
+                            </div>
                         )}
                     />
                 </Switch>

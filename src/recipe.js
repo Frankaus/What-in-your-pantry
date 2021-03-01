@@ -5,16 +5,17 @@ const Recipe = (props) => {
     console.log("id: ", id);
 
     const recipeArr = useSelector((state) =>
-        state.recipesInfo.filter((elem) => elem.id == id)
+        state.recipes.filter((elem) => elem.id == id)
     );
+    // const tenRecipes = useSelector((state) => 
+    //     state.recipes.filter((elem, index) => {
+    //         if (elem[index] < elem[10]){
+    //             return elem;
+    //         }}));
+
+    // console.log('ten recipe: ', tenRecipes);
 
     let [recipe] = recipeArr;
-    let ingredients = recipe.extendedIngredients;
-
-    console.log("recipe: ", recipe);
-    console.log("summary: ", recipe.summary);
-    console.log("instructions: ", recipe.instructions);
-    console.log("ingredients: ", ingredients);
 
     if (!recipe) {
         return <div>Loading</div>;
@@ -22,27 +23,34 @@ const Recipe = (props) => {
 
     return (
         <div>
-            <h1>Recipe</h1>
             <div>
                 <img src={recipe.image} alt={recipe.title} />
                 <div>
                     <h2>{recipe.title}</h2>
                 </div>
-                <div>{recipe.instructions}</div>
+                <div>
+                    <span>Dish type: {recipe.dishTypes[0]}</span>
+                    <span>Ready in {recipe.readyInMinutes} minutes.</span>
+                    <span>Servings: {recipe.servings}</span>
+                </div>
+                <span>Instructions: {recipe.instructions}</span>
             </div>
-            {ingredients.length &&
-                ingredients.map((elem, index) => {
-
+            {recipe.extendedIngredients.length &&
+                recipe.extendedIngredients.map((elem, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} overflow-y-visible>
+                            <h2>Ingredients: </h2>
                             <ul>
                                 <li>
-                                    {(elem.measures.metric.amount).toFixed(1)} {elem.measures.metric.unitLong} of {elem.name}
+                                    {elem.measures.metric.amount.toFixed(1)}{" "}
+                                    {elem.measures.metric.unitLong} of{" "}
+                                    {elem.name}
                                 </li>
                             </ul>
                         </div>
                     );
                 })}
+            
         </div>
     );
 };

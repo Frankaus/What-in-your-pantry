@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { uploadRecipes, uploadRecipesInfo } from "./redux/actions";
+import { uploadRecipes} from "./redux/actions";
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
     const [ingredient, setIngredient] = useState("");
     const [ingredientsList, setIngredientsList] = useState([]);
-    const [recipes, setRecipes] = useState();
-    const [dataArr, setDataArr] = useState([]);
+    const [recipes, setRecipes] = useState([]);
+    const [addInfo, setAddInfo] = useState([]);
 
     const { REACT_APP_API_TOKEN } = process.env;
 
@@ -34,7 +34,6 @@ const HomeSearch = () => {
             .then((data) => {
                 console.log("data: ", data);
                 setRecipes(data);
-                // dispatch(uploadRecipes(data));
                 let ids = data.map((elem) => elem.id).join(",");
                 console.log("ids: ", ids);
                 fetch(
@@ -45,7 +44,7 @@ const HomeSearch = () => {
                     })
                     .then((data) => {
                         console.log("data2: ", data);
-                        setDataArr(data);
+                        setAddInfo(data);
                     })
                     .catch((err) => {
                         console.log("error second Fetch: ", err);
@@ -57,15 +56,15 @@ const HomeSearch = () => {
     };
 
     useEffect(() => {
-        let arr = dataArr.map((elem, index) => {
+        let combinedArr = addInfo.map((elem, index) => {
             return (elem[index] = {
                 ...recipes[index],
-                ...dataArr[index],
+                ...addInfo[index],
             });
         });
-        console.log("arr: ", arr);
-        dispatch(uploadRecipes(arr));
-    }, [dataArr]);
+        console.log("combinedArr: ", combinedArr);
+        dispatch(uploadRecipes(combinedArr));
+    }, [addInfo]);
 
     return (
         <div className="p-2 w-screen h-auto">

@@ -10,12 +10,7 @@ export function reducer(state = DEFAULT_STATE, action) {
         };
     }
 
-    if (action.type === "UPLOAD_RECIPES_INFO") {
-        state = {
-            ...state,
-            recipesInfo: action.data,
-        };
-    }
+    
 
     return state;
 }
