@@ -26,7 +26,7 @@ const HomeSearch = () => {
         let queryString = ingredientsList.join(",");
         console.log("query: ", queryString);
         fetch(
-            `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&number=20&ranking=2&limitLicense=true&ignorePantry=true&apiKey=${REACT_APP_API_TOKEN}`
+            `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&number=40&ranking=2&limitLicense=true&ignorePantry=true&apiKey=${REACT_APP_API_TOKEN}`
         )
             .then((res) => {
                 return res.json();
@@ -68,51 +68,55 @@ const HomeSearch = () => {
 
     return (
         <div className="p-2 w-screen h-auto">
-            <div className="h-full flex flex-col items-center">
-                <input
-                    onKeyPress={(e) => {
-                        if (e.key === "Enter") {
+            {/* div for box flex align ingredients start */}
+            <div className="flex flex-col">
+                {/* search and button container starts here */}
+                <div className="h-full flex flex-col items-center">
+                    <input
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                ingredientsList.push(ingredient);
+                                setIngredient("");
+                            }
+                        }}
+                        onChange={(e) => setIngredient(e.target.value)}
+                        type="text"
+                        placeholder="Enter one ingredient at the time..."
+                        value={ingredient}
+                        className="my-4 w-2/5 p-2 mx-2"
+                    />
+                    <button
+                        onClick={() => {
                             ingredientsList.push(ingredient);
                             setIngredient("");
-                        }
-                    }}
-                    onChange={(e) => setIngredient(e.target.value)}
-                    type="text"
-                    placeholder="Enter one ingredient at the time..."
-                    value={ingredient}
-                    className="my-4 w-11/12 p-2 "
-                />
-                <button
-                    onClick={() => {
-                        ingredientsList.push(ingredient);
-                        setIngredient("");
-                    }}
-                    className="border-solid border-red-400 border-2 rounded-lg p-1 bg-red-400 text-white text font-semibold"
-                >
-                    Add the ingredient to the list
-                </button>
-                <button
-                    className="border-solid border-red-400 border-2 rounded-lg p-1 bg-red-400 text-white text font-semibold my-4"
-                    onClick={() => submitList()}
-                >
-                    Submit the pantry list
-                </button>
-            </div>
+                        }}
+                        className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold"
+                    >
+                        Add the ingredient to the list
+                    </button>
+                    <button
+                        className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4"
+                        onClick={() => submitList()}
+                    >
+                        Submit the pantry list
+                    </button>
+                </div>
 
-            <div className="flex flex-wrap">
-                {ingredientsList.length > 0 &&
-                    ingredientsList.map((elem) => {
-                        return (
-                            <div
-                                key={elem}
-                                name={elem}
-                                onClick={(e) => removeItem(e)}
-                                className="px-1 border-solid border-2 rounded-lg border-yellow-200 bg-yellow-200 m-2 text-gray-400 font-semibold"
-                            >
-                                {elem}
-                            </div>
-                        );
-                    })}
+                <div className="flex flex-wrap w-11/12">
+                    {ingredientsList.length > 0 &&
+                        ingredientsList.map((elem) => {
+                            return (
+                                <div
+                                    key={elem}
+                                    name={elem}
+                                    onClick={(e) => removeItem(e)}
+                                    className="px-1 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold"
+                                >
+                                    {elem}
+                                </div>
+                            );
+                        })}
+                </div>
             </div>
         </div>
     );
