@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
     recipes: [],
+    dishType: ""
 };
 
 export function reducer(state = DEFAULT_STATE, action) {
@@ -7,6 +8,13 @@ export function reducer(state = DEFAULT_STATE, action) {
         state = {
             ...state,
             recipes: action.data,
+        };
+    }
+
+    if (action.type === "GET_DISH_TYPE") {
+        state = {
+            ...state,
+            dishType: action.data
         };
     }
 

@@ -1,12 +1,24 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
-
 import { Link } from "react-router-dom";
 
-const SearchResults = () => {
-    const recipes = useSelector((state) => state.recipes);
 
-    console.log("recipes: ", recipes);
+const SearchResults = () => {
+    let recipes = useSelector((state) => state.recipes);
+    const dishType = useSelector((state) => state.dishType);
+
+    console.log("recipes in results: ", recipes);
+    console.log('dishType in results: ', dishType);
+
+    if (dishType === "2"){
+       recipes = recipes.filter((elem) => elem.vegetarian)
+    } else if (dishType === "3") {
+        recipes = recipes.filter((elem) => elem.vegetarian && elem.vegan)
+    } else if (dishType === "4") {
+        recipes = recipes.filter((elem) => elem.vegan)
+    } else if (dishType === "5") {
+        recipes = recipes.filter(elem => elem.dairyFree)
+    }
+
 
     if (!recipes) {
         return null;
@@ -14,7 +26,7 @@ const SearchResults = () => {
 
     return (
         <div className="flex flex-wrap justify-center">
-            {!!recipes.length &&
+            {recipes.length > 0 &&
                 recipes.map((elem, index) => {
                     {/* cards starts here */}
                     return (
@@ -60,8 +72,8 @@ const SearchResults = () => {
                                     </div>
                                 )}
                                 {!!elem.dairyFree && (
-                                    <div className="p-1 border-solid border-2 rounded-lg border-yellow-200 bg-yellow-200 text-gray-400 font-semibold text-sm w-min">
-                                        DairyFree
+                                    <div className="p-1 border-solid border-2 rounded-lg border-yellow-200 bg-yellow-200 text-gray-400 font-semibold text-sm ">
+                                        Dairy Free
                                     </div>
                                 )}
                             </div>

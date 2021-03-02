@@ -5,10 +5,9 @@ export const uploadRecipes = (recipes) => {
     }
 };
 
-export const uploadRecipesInfo = (recipes) => {
+export const dishType = (dishType) => {
     return {
-        type: "UPLOAD_RECIPES_INFO",
-        data: recipes,
-        id: recipes.map(elem => elem.id)
+        type: "GET_DISH_TYPE",
+        data: dishType,
     }
 }

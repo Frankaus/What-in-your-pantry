@@ -8,7 +8,6 @@ function App() {
     return (
         <div>
             <Router>
-                <Header />
                 <Switch>
                     <Route exact path="/">
                         <div>
@@ -22,6 +21,7 @@ function App() {
                         path="/recipe/:id"
                         render={(props) => (
                             <div>
+                                <Header />
                                 <Recipe
                                     match={props.match}
                                     history={props.history}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { uploadRecipes} from "./redux/actions";
+import { uploadRecipes, dishType } from "./redux/actions";
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
@@ -72,6 +72,25 @@ const HomeSearch = () => {
             <div className="flex flex-col">
                 {/* search and button container starts here */}
                 <div className="h-full flex flex-col items-center">
+                    <h1 className="mt-12 mb-4 text-2xl font-semibold">
+                        {" "}
+                        What's in your pantry?
+                    </h1>
+                    <div className="flex flex-wrap w-11/12 h-24">
+                        {ingredientsList.length > 0 &&
+                            ingredientsList.map((elem) => {
+                                return (
+                                    <div
+                                        key={elem}
+                                        name={elem}
+                                        onClick={(e) => removeItem(e)}
+                                        className="px-1 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold max-h-8"
+                                    >
+                                        {elem}
+                                    </div>
+                                );
+                            })}
+                    </div>
                     <input
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
@@ -85,37 +104,36 @@ const HomeSearch = () => {
                         value={ingredient}
                         className="my-4 w-2/5 p-2 mx-2"
                     />
-                    <button
-                        onClick={() => {
-                            ingredientsList.push(ingredient);
-                            setIngredient("");
-                        }}
-                        className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold"
-                    >
-                        Add the ingredient to the list
-                    </button>
-                    <button
-                        className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4"
-                        onClick={() => submitList()}
-                    >
-                        Submit the pantry list
-                    </button>
-                </div>
-
-                <div className="flex flex-wrap w-11/12">
-                    {ingredientsList.length > 0 &&
-                        ingredientsList.map((elem) => {
-                            return (
-                                <div
-                                    key={elem}
-                                    name={elem}
-                                    onClick={(e) => removeItem(e)}
-                                    className="px-1 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold"
-                                >
-                                    {elem}
-                                </div>
-                            );
-                        })}
+                    <div>
+                        <span className="mx-2">Filter for the type of dish:</span>
+                        <select 
+                        className="p-1 px-2"
+                        onChange={(e) => dispatch(dishType(e.target.value))}
+                        name="type" id="type">
+                            <option value="1">All</option>
+                            <option value="2">Vegetarian</option>
+                            <option value="3">Vegetarian & Vegan</option>
+                            <option value="4">Vegan</option>
+                            <option value="5">Dairy free</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button
+                            onClick={() => {
+                                ingredientsList.push(ingredient);
+                                setIngredient("");
+                            }}
+                            className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold mx-6"
+                        >
+                            Add the ingredient to the list
+                        </button>
+                        <button
+                            className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4"
+                            onClick={() => submitList()}
+                        >
+                            Submit the pantry list
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
