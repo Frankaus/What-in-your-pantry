@@ -1,7 +1,8 @@
 const DEFAULT_STATE = {
     recipes: [],
     dishType: "",
-    comments: []
+    comments: [],
+    loading: false
 };
 
 export function reducer(state = DEFAULT_STATE, action) {
@@ -33,6 +34,13 @@ export function reducer(state = DEFAULT_STATE, action) {
         state = {
             ...state,
             comments: action.data
+        };
+    }
+
+    if (action.type === "LOADING") {
+        state = {
+            ...state,
+            loading: !state.loading
         };
     }
 

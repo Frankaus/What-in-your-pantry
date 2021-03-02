@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { uploadRecipes, dishType } from "./redux/actions";
+import { uploadRecipes, dishType, loading} from "./redux/actions";
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const HomeSearch = () => {
                         {" "}
                         What's in your pantry?
                     </h1>
-                    <div className="flex flex-wrap w-11/12 h-24">
+                    <div className="flex flex-wrap min-w-min h-24 max-h-44 max-w-4xl">
                         {ingredientsList.length > 0 &&
                             ingredientsList.map((elem) => {
                                 return (
@@ -129,7 +129,10 @@ const HomeSearch = () => {
                         </button>
                         <button
                             className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4"
-                            onClick={() => submitList()}
+                            onClick={() => {
+                                dispatch(loading());
+                                submitList();
+                            }}
                         >
                             Submit the pantry list
                         </button>

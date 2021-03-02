@@ -35,11 +35,13 @@ app.get('/api/getComments/:id', async (req, res) => {
     console.log('req.params: ', req.params.id);
     try {
        let {rows} = await db.getComments(req.params.id);
-       console.log('data: ', rows); 
        if (!rows.length){
            return res.json({comments: false})
        } else if (rows.length){
-           res.json(rows)
+           res.json({
+            comments: true,   
+            rows
+        })
        }
     } catch(err) {
         console.log('error in getComments server: ', err);

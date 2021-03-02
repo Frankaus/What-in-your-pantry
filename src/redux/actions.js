@@ -15,10 +15,8 @@ export const dishType = (dishType) => {
 }
 
 export const uploadComment = async (comment) => {
-    console.log('comment in action: ', comment);
     try {
         let {data} = await axios.post('/api/uploadComment', comment);
-        console.log('response: ', data);
         if (data.uploaded) {
             return {
                 type: "UPLOAD_COMMENT",
@@ -33,12 +31,20 @@ export const uploadComment = async (comment) => {
 export const getComments = async (recipeId) => {
     try {
         let {data} = await axios.get('/api/getComments/' + recipeId);
-        console.log('res getComments: ', data);
-        return {
-            type: "GET_COMMENTS",
-            data: data
+        console.log('get comments: ', data);
+        if (data.comments) {
+            return {
+                type: "GET_COMMENTS",
+                data: data.rows
+            }
         }
     } catch(err) {
         console.log('error in getComments action: ', err);
     }
-} 
+}
+
+export const loading = () => {
+    return {
+        type: "LOADING",
+    }
+}

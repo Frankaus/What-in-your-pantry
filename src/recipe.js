@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
-import parse from 'html-react-parser';
-
+import parse from "html-react-parser";
 
 const Recipe = (props) => {
     const id = props.match.params.id;
-    console.log("id: ", id);
+    // console.log("id: ", id);
 
     const recipeArr = useSelector((state) =>
         state.recipes.filter((elem) => elem.id == id)
@@ -14,11 +13,9 @@ const Recipe = (props) => {
 
     let parsed = parse(recipe.summary);
 
-    console.log('parsed: ', parsed);
-
-    function parsingFn (element){
+    function parsingFn(element) {
         let body = "";
-        for (var i = 0; i < element.length; i++){
+        for (var i = 0; i < element.length; i++) {
             if (i % 2 == 0) {
                 body += element[i];
             } else {
@@ -26,12 +23,9 @@ const Recipe = (props) => {
             }
         }
         return body;
-    };
+    }
 
     let summary = parsingFn(parsed);
-
-    console.log('summary: ', summary);
-
 
     if (!recipe) {
         return <div>Loading</div>;
@@ -82,15 +76,9 @@ const Recipe = (props) => {
                 <p className="self-center mb-4 text-lg font-semibold">
                     Instructions:
                 </p>
-                {recipe.analyzedInstructions[0].steps.map((elem, index) => {
-                    return (
-                        <div key={index}>
-                            <ol>
-                                <li>{elem.step}</li>
-                            </ol>
-                        </div>
-                    );
-                })}
+                <div>
+                    <span>{recipe.instructions}</span>
+                </div>
             </div>
             <div>
                 <p>{summary}</p>

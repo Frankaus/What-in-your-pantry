@@ -3,10 +3,11 @@ import {uploadComment, getComments} from "./redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 
 const Comments = (props) => {
-    const recipeId = props.match.params.id;
     const dispatch = useDispatch();
+    
+    const recipeId = props.match.params.id;
     const [comment, setComment] = useState({ recipeId: recipeId });
-    console.log("id in comment: ", recipeId);
+    const [reload, setReload] = useState(false)
 
     const comments = useSelector(state => state.comments);
 
@@ -20,16 +21,24 @@ const Comments = (props) => {
 
     useEffect(() => {
         dispatch(getComments(recipeId));
-    }, [comments]);
+    }, [reload]);
 
     return (
         <div>
+            <div>
+                <h1>Reviews & Local Adaptation</h1>
+            </div>
+            {!comments.length && (
+                <div>
+                    <h3>There are no reviews yet, be the first one!</h3>
+                </div>
+            )}
             <div>
                 {/* FORM */}
                 <div>
                     <h1>
                         Do you have your personal version of that recipe? Please
-                        tell use about it.
+                        tell us about it.
                     </h1>
                 </div>
                 <div>
@@ -68,29 +77,43 @@ const Comments = (props) => {
                         onChange={(e) => handleChange(e)}
                     />
                 </div>
-                <button onClick={() => dispatch(uploadComment(comment))}>Submit</button>
+                <button
+                    onClick={() => {
+                        dispatch(uploadComment(comment));
+                        setReload(!reload);
+                    }}
+                >
+                    Submit
+                </button>
             </div>
             {/* COMMENTS */}
-            {!!comments.length && comments.map((elem, index) => {
-                return (
-                    <div>
-                        <div>
-                            <span>{elem.email}</span>
-                        </div>
-                        {elem.country && (
+            {!!comments.length &&
+                comments.map((elem, index) => {
+                    let date = new Date(elem.created_at);
+                    return (
+                        <div key={index}>
                             <div>
-                                <span>From {elem.country}</span>
+                                <span>{elem.email}</span>
                             </div>
-                        )}
-                        <div>
-                            <span>{elem.title}</span>
+                            {elem.country && (
+                                <div>
+                                    <span>From {elem.country}</span>
+                                </div>
+                            )}
+                            <div>
+                                <span>{elem.title}</span>
+                            </div>
+                            <div>
+                                <span>{elem.text}</span>
+                            </div>
+                            <div>
+                                <span>
+                                    Posted on the {date.toLocaleDateString()}
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span>{elem.text}</span>
-                        </div>
-                    </div>
-                )
-            })}
+                    );
+                })}
         </div>
     );
 };

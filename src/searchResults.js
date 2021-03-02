@@ -1,13 +1,17 @@
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 import { Link } from "react-router-dom";
 
 
 const SearchResults = () => {
     let recipes = useSelector((state) => state.recipes);
     const dishType = useSelector((state) => state.dishType);
+    let loading = useSelector(state => state.loading);
 
-    console.log("recipes in results: ", recipes);
-    console.log('dishType in results: ', dishType);
+    if (recipes.length > 0) {
+        loading = false;
+    }
+
+    console.log('loading: ', loading);
 
     if (dishType === "2"){
        recipes = recipes.filter((elem) => elem.vegetarian)
@@ -19,9 +23,12 @@ const SearchResults = () => {
         recipes = recipes.filter(elem => elem.dairyFree)
     }
 
-
-    if (!recipes) {
-        return null;
+    if (loading) {
+        return (
+            <div className="flex justify-center">
+                <span className="font-semibold text-3xl">  ☎️ Calling the Chef...</span>
+            </div>
+        );
     }
 
     return (
