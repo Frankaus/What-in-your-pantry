@@ -3,6 +3,7 @@ import HomeSearch from "./homeSearch";
 import SearchResults from "./searchResults";
 import Recipe from "./recipe";
 import Header from "./header";
+import Comments from "./comments";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                                     history={props.history}
                                     key={props.match.url}
                                 />
+                                <Comments match={props.match} />
                             </div>
                         )}
                     />

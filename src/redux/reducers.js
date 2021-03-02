@@ -1,6 +1,7 @@
 const DEFAULT_STATE = {
     recipes: [],
-    dishType: ""
+    dishType: "",
+    comments: []
 };
 
 export function reducer(state = DEFAULT_STATE, action) {
@@ -18,7 +19,23 @@ export function reducer(state = DEFAULT_STATE, action) {
         };
     }
 
+    if (action.type === "UPLOAD_COMMENT") {
+        state = {
+            ...state,
+            comments: [
+                ...state.comments, 
+                action.data
+            ]
+        };
+    }
     
+    if (action.type === "GET_COMMENTS") {
+        state = {
+            ...state,
+            comments: action.data
+        };
+    }
+
 
     return state;
 }

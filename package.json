@@ -22,6 +22,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-promise": "^0.6.0",
+    "spiced-pg": "^1.0.4",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
