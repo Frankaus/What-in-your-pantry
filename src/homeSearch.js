@@ -25,7 +25,6 @@ const HomeSearch = () => {
 
     let submitList = () => {
         let queryString = ingredientsList.join(",");
-        console.log("query: ", queryString);
         fetch(
             `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${queryString}&number=40&ranking=2&limitLicense=true&ignorePantry=true&apiKey=${REACT_APP_API_TOKEN}`
         )
