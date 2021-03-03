@@ -3,7 +3,6 @@ import HomeSearch from "./homeSearch";
 import SearchResults from "./searchResults";
 import Recipe from "./recipe";
 import Header from "./header";
-import Comments from "./comments";
 
 function App() {
     return (
