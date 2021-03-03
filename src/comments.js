@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import {uploadComment, getComments} from "./redux/actions";
 import {useDispatch, useSelector} from "react-redux";
+import {motion} from "framer-motion";
 
 const Comments = (props) => {
     const dispatch = useDispatch();
     
     const recipeId = props.id;
+    console.log(recipeId);
     const [comment, setComment] = useState({ recipeId: recipeId });
     const [reload, setReload] = useState(false)
 
@@ -101,9 +103,12 @@ const Comments = (props) => {
                 comments.map((elem, index) => {
                     let date = new Date(elem.created_at);
                     return (
-                        <div
+                        <motion.div
                             key={index}
                             className="shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                            initial={{x: '-100vw'}}
+                            animate={{x: 0}}
+                            transition={{delay: 2, type: 'spring', stiffness: 200, duration: 2}}
                         >
                             <div className="mb-2">
                                 <span className="text-gray-700 font-bold">
@@ -133,7 +138,7 @@ const Comments = (props) => {
                                     Posted on the {date.toLocaleDateString()}
                                 </span>
                             </div>
-                        </div>
+                        </motion.div>
                     );
                 })}
         </div>

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { useEffect } from "react";
 import Comments from "./comments";
+import {motion} from "framer-motion";
 
 const Recipe = (props) => {
     const id = props.match.params.id;
@@ -78,7 +79,12 @@ const Recipe = (props) => {
             </div>
             <div className="flex w-full">
                 {/* INGREDIENTS & INSTRUCTIONS*/}
-                <div className="bg-clip bg-cover m-2 rounded p-6 w-1/5 pl-14">
+                <motion.div 
+                    className="bg-clip bg-cover m-2 rounded p-6 w-1/5 pl-14"
+                    initial={{x: '-100vw'}}
+                    animate={{ x: 0 }}
+                    transition={{delay: 2, duration: 3, type: 'spring', stiffness: 200}}
+                >
                     <h2 className="text-lg font-semibold mb-2 text-gray-700">
                         Ingredients:{" "}
                     </h2>
@@ -95,7 +101,7 @@ const Recipe = (props) => {
                                 </div>
                             );
                         })}
-                </div>
+                </motion.div>
                 <div className="m-2 rounded p-2 flex flex-col w-4/5 border-2 border-dotted border-gray-300">
                     <p className="self-center mb-4 text-lg font-semibold text-gray-700 ">
                         Instructions:
@@ -111,56 +117,3 @@ const Recipe = (props) => {
 };
 
 export default Recipe;
-
-// <div className="bg-white">
-//     <div className="flex">
-//         <div className="flex bg-gray-300 m-2 rounded-lg overflow-hidden">
-//             <div className="w-1/3">
-//                 <img
-//                     className="object-cover h-full"
-//                     src={recipe.image}
-//                     alt={recipe.title}
-//                 />
-//             </div>
-//             <div className="p-2">
-//                 <h2 className="text-lg font-semibold">
-//                     {recipe.title}
-//                 </h2>
-//                 <span className="block mt-2">
-//                     Dish type: {recipe.dishTypes[0]}
-//                 </span>
-//                 <span className="block">
-//                     Ready in {recipe.readyInMinutes} minutes.
-//                 </span>
-//                 <span>Servings: {recipe.servings}</span>
-//             </div>
-//         </div>
-//         <div className="bg-gray-300 m-2 rounded-lg p-2">
-//             <h2 className="text-lg font-semibold">Ingredients: </h2>
-//             {recipe.extendedIngredients.length &&
-//                 recipe.extendedIngredients.map((elem, index) => {
-//                     return (
-//                         <div key={index}>
-//                             <ul>
-//                                 <li>
-//                                     {elem.amount.toFixed(1)} {elem.unit}{" "}
-//                                     of {elem.name}
-//                                 </li>
-//                             </ul>
-//                         </div>
-//                     );
-//                 })}
-//         </div>
-//     </div>
-//     <div className="bg-gray-300 m-2 rounded-lg p-2 flex flex-col">
-//         <p className="self-center mb-4 text-lg font-semibold">
-//             Instructions:
-//         </p>
-//         <div>
-//             <span>{recipe.instructions}</span>
-//         </div>
-//     </div>
-//     <div>
-//         <p>{summary}</p>
-//     </div>
-// </div>

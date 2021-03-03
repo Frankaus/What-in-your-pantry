@@ -9,7 +9,6 @@ const app = express();
 
 app.use(compression());
 app.use(morgan("dev"));
-// to be used only for Form post req
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -18,7 +17,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.post('/api/uploadComment', async (req, res) => {
     let {recipeId, email, title, country, text} = req.body;
-    console.log('req.body: ', req.body);
     try {
         let data = await db.addComment(recipeId, email, title, country, text);
         console.log('data: ', data);
@@ -32,7 +30,6 @@ app.post('/api/uploadComment', async (req, res) => {
 });
 
 app.get('/api/getComments/:id', async (req, res) => {
-    console.log('req.params: ', req.params.id);
     try {
        let {rows} = await db.getComments(req.params.id);
        if (!rows.length){
@@ -47,11 +44,6 @@ app.get('/api/getComments/:id', async (req, res) => {
         console.log('error in getComments server: ', err);
     }
 });
-
-
-
-
-
 
 
 app.listen(process.env.PORT || 3001, () => {

@@ -7,11 +7,9 @@ let Header = () => {
 
     return (
         <Link to="/">
-        <div onClick={() => dispatch(loading())} className="bg-yellow-700" >
-            <h1
-            className="text-2xl p-4"
-            >Search</h1>
-        </div>
+            <div onClick={() => dispatch(loading())} className="bg-yellow-700">
+                <h1 className="text-2xl px-4 py-2 text-gray-700 font-semibold">Search</h1>
+            </div>
         </Link>
     );
 }

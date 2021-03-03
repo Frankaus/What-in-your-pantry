@@ -1,5 +1,13 @@
 import { useSelector} from "react-redux";
 import { Link } from "react-router-dom";
+import {motion} from "framer-motion";
+
+const loadingVariants = {
+   animation: {
+       scale: [1.25, 0.75, 1.25, 0.75],
+       transition: {duration: 3}
+   }
+};
 
 
 const SearchResults = () => {
@@ -25,9 +33,13 @@ const SearchResults = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center">
+            <motion.div
+                className="flex justify-center"
+                variants={loadingVariants}
+                animate="animation"
+            >
                 <span className="font-semibold text-3xl">  ☎️ Calling the Chef...</span>
-            </div>
+            </motion.div>
         );
     }
 
@@ -37,9 +49,10 @@ const SearchResults = () => {
                 recipes.map((elem, index) => {
                     {/* cards starts here */}
                     return (
-                        <div
+                        <motion.div
                             key={index}
-                            className="w-1/4 mx-6 my-4 bg-gray-100 rounded-l overflow-hidden shadow-md hover:shadown-lg"
+                            className="w-1/4 mx-6 my-4 bg-gray-100 rounded-l overflow-hidden shadow-md hover:shadown-2xl"
+                            whileHover={{scale: 1.1}}
                         >
                             <div className="relative">
                                 <img src={elem.image} alt={elem.title} />
@@ -56,7 +69,9 @@ const SearchResults = () => {
                                 </span>
                                 {!!elem.dishTypes.length && (
                                     <div>
-                                        <span className="font-semibold">Dish type: {elem.dishTypes[0]}</span>
+                                        <span className="font-semibold">
+                                            Dish type: {elem.dishTypes[0]}
+                                        </span>
                                     </div>
                                 )}
                                 {elem.missedIngredientCount > 0 && (
@@ -94,7 +109,7 @@ const SearchResults = () => {
                                     Read the instructions
                                 </div>
                             </Link>
-                        </div>
+                        </motion.div>
                     );
                 })}
         </div>

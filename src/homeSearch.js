@@ -73,14 +73,16 @@ const HomeSearch = () => {
             <div className="flex flex-col">
                 {/* search and button container starts here */}
                 <div className="h-full flex flex-col items-center">
-                    <motion.h1 
-                        className="mt-12 mb-4 text-2xl font-semibold"
-                        initial={{y: -250}}
-                        animate={{y: 0}}
+                    <motion.h1
+                        className="mt-24 mb-4 text-4xl font-semibold text-yellow-700"
+                        initial={{ y: -250 }}
+                        animate={{ y: 0 }}
+                        transition={{delay: 1, type:'spring', stiffness: 500, duration: 2}}
                     >
                         {" "}
                         What's in your pantry?
                     </motion.h1>
+                    {/* INGREDIENTS LIST */}
                     <div className="flex flex-wrap min-w-min h-24 max-h-44 max-w-4xl">
                         {ingredientsList.length > 0 &&
                             ingredientsList.map((elem) => {
@@ -90,8 +92,9 @@ const HomeSearch = () => {
                                         name={elem}
                                         onClick={(e) => removeItem(e)}
                                         className="px-2 py-2 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold max-h-10 relative"
-                                        initial={{ x: -350 }}
+                                        initial={{ x: -500 }}
                                         animate={{ x: 0 }}
+                                        transition={{ duration: 0.5 }}
                                     >
                                         {elem}
                                         <div className="absolute bg-green-400 rounded-full h-4  text-xs -inset-1 text-center w-min px-1 text-gray-800">
@@ -101,6 +104,7 @@ const HomeSearch = () => {
                                 );
                             })}
                     </div>
+                    {/* INPUT */}
                     <motion.input
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
@@ -112,11 +116,13 @@ const HomeSearch = () => {
                         type="text"
                         placeholder="Enter one ingredient at the time..."
                         value={ingredient}
-                        className="my-4 w-2/5 p-2 mx-2 rounded-full outline-none"
-                        initial={{x: -100}}
-                        animate={{x: 0}}
+                        className="my-4 w-2/5 p-2 mx-2 rounded-full outline-none focus:shadow-2xl"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1, duration: 3 }}
                     />
                     <div>
+                        {/* FILTER & BUTTONS */}
                         <span className="mx-2">
                             Filter for the type of dish:
                         </span>
@@ -139,12 +145,12 @@ const HomeSearch = () => {
                                 ingredientsList.push(ingredient);
                                 setIngredient("");
                             }}
-                            className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold mx-6"
+                            className="border-solid focus:outline-none border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold mx-6 hover:shadow-xl"
                         >
                             Add the ingredient to the list
                         </button>
                         <button
-                            className="border-solid border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4"
+                            className="border-solid focus:outline-none border-yellow-700 border-2 rounded-lg p-1 bg-yellow-700 text-white text font-semibold my-4 hover:shadow-xl"
                             onClick={() => {
                                 dispatch(loading());
                                 submitList();
