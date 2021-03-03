@@ -11,6 +11,7 @@
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "express": "^4.17.1",
+    "framer-motion": "^3.9.2",
     "html-react-parser": "^1.2.4",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",

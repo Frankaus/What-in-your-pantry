@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { uploadRecipes, dishType, loading} from "./redux/actions";
+import {motion} from "framer-motion";
 
 const HomeSearch = () => {
     const dispatch = useDispatch();
@@ -72,26 +73,35 @@ const HomeSearch = () => {
             <div className="flex flex-col">
                 {/* search and button container starts here */}
                 <div className="h-full flex flex-col items-center">
-                    <h1 className="mt-12 mb-4 text-2xl font-semibold">
+                    <motion.h1 
+                        className="mt-12 mb-4 text-2xl font-semibold"
+                        initial={{y: -250}}
+                        animate={{y: 0}}
+                    >
                         {" "}
                         What's in your pantry?
-                    </h1>
+                    </motion.h1>
                     <div className="flex flex-wrap min-w-min h-24 max-h-44 max-w-4xl">
                         {ingredientsList.length > 0 &&
                             ingredientsList.map((elem) => {
                                 return (
-                                    <div
+                                    <motion.div
                                         key={elem}
                                         name={elem}
                                         onClick={(e) => removeItem(e)}
-                                        className="px-1 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold max-h-8"
+                                        className="px-2 py-2 border-solid border-2 rounded-lg border-green-700 bg-green-700 m-2 text-gray-400 font-semibold max-h-10 relative"
+                                        initial={{ x: -350 }}
+                                        animate={{ x: 0 }}
                                     >
                                         {elem}
-                                    </div>
+                                        <div className="absolute bg-green-400 rounded-full h-4  text-xs -inset-1 text-center w-min px-1 text-gray-800">
+                                            x
+                                        </div>
+                                    </motion.div>
                                 );
                             })}
                     </div>
-                    <input
+                    <motion.input
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
                                 ingredientsList.push(ingredient);
@@ -102,14 +112,20 @@ const HomeSearch = () => {
                         type="text"
                         placeholder="Enter one ingredient at the time..."
                         value={ingredient}
-                        className="my-4 w-2/5 p-2 mx-2"
+                        className="my-4 w-2/5 p-2 mx-2 rounded-full outline-none"
+                        initial={{x: -100}}
+                        animate={{x: 0}}
                     />
                     <div>
-                        <span className="mx-2">Filter for the type of dish:</span>
-                        <select 
-                        className="p-1 px-2"
-                        onChange={(e) => dispatch(dishType(e.target.value))}
-                        name="type" id="type">
+                        <span className="mx-2">
+                            Filter for the type of dish:
+                        </span>
+                        <select
+                            className="p-1 px-2 outline-none rounded-full hover:border-gray-500 shadow focus:outline-none"
+                            onChange={(e) => dispatch(dishType(e.target.value))}
+                            name="type"
+                            id="type"
+                        >
                             <option value="1">All</option>
                             <option value="2">Vegetarian</option>
                             <option value="3">Vegetarian & Vegan</option>

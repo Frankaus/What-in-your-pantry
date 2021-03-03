@@ -39,7 +39,7 @@ const SearchResults = () => {
                     return (
                         <div
                             key={index}
-                            className="w-1/4 mx-6 my-4 bg-gray-100 rounded-l overflow-hidden shadow-md"
+                            className="w-1/4 mx-6 my-4 bg-gray-100 rounded-l overflow-hidden shadow-md hover:shadown-lg"
                         >
                             <div className="relative">
                                 <img src={elem.image} alt={elem.title} />
@@ -54,16 +54,21 @@ const SearchResults = () => {
                                 <span className="block font-semibold">
                                     Servings: {elem.servings}
                                 </span>
+                                {!!elem.dishTypes.length && (
+                                    <div>
+                                        <span className="font-semibold">Dish type: {elem.dishTypes[0]}</span>
+                                    </div>
+                                )}
                                 {elem.missedIngredientCount > 0 && (
                                     <span>
                                         You are missing only{" "}
                                         {elem.missedIngredientCount}{" "}
                                         ingredient(s):{" "}
-                                    <span className="font-semibold">
-                                        {elem.missedIngredients
-                                            .map((elem) => elem.name)
-                                            .join(", ")}
-                                    </span>
+                                        <span className="font-semibold">
+                                            {elem.missedIngredients
+                                                .map((elem) => elem.name)
+                                                .join(", ")}
+                                        </span>
                                     </span>
                                 )}
                             </div>

@@ -27,8 +27,8 @@ function App() {
                                     match={props.match}
                                     history={props.history}
                                     key={props.match.url}
+                            
                                 />
-                                <Comments match={props.match} />
                             </div>
                         )}
                     />
